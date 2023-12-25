@@ -1,0 +1,43 @@
+import random
+import math
+
+class RobotVacuumCleaner:
+
+    def __init__(self, width, height, start_position):
+        self.width = width
+        self.height = height
+        self.start_position = start_position
+        self.current_position = start_position
+        self.direction = random.randint(0, 3)
+        self.visited_cells = []
+
+    def move(self):
+        if self.direction == 0:
+            self.current_position[0] += 1
+        elif self.direction == 1:
+            self.current_position[1] += 1
+        elif self.direction == 2:
+            self.current_position[0] -= 1
+        else:
+            self.current_position[1] -= 1
+
+    def turn(self):
+        self.direction = (self.direction + 1) % 4
+
+    def clean_cell(self):
+        self.visited_cells.append(self.current_position)
+
+    def is_valid_cell(self, cell):
+        return 0 <= cell[0] < self.width and 0 <= cell[1] < self.height
+
+    def is_goal_reached(self):
+        return self.current_position == self.goal_position
+
+    def run(self):
+        while not self.is_goal_reached():
+            if self.is_valid_cell(self.current_position):
+                self.clean_cell()
+            self.move()
+            if random.random() < 0.1:
+                self.turn()
+
